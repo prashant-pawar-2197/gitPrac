@@ -1,3 +1,6 @@
 Hello Prashant Pawar
+<<<<<<< HEAD
 Hi how are you..??
 jjjj
+=======
+>>>>>>> parent of 9cfed3e (second commit)
