@@ -1,0 +1,136 @@
+Docker
+------
+Docker is a software platform for building applications based on containers — 
+small and lightweight execution environments that make shared use of the operating system kernel but otherwise run in isolation from one another.
+
+
+How can I isolate my applications
+---------------------------------
+One solution to this problem has been virtual machines, which keep applications on the same hardware entirely separate, 
+and reduce conflicts among software components and competition for hardware resources to a minimum. 
+But virtual machines are bulky—each requires its own OS, so is typically gigabytes in size—and difficult to maintain and upgrade
+
+Containers, by contrast, isolate applications’ execution environments from one another, but share the underlying OS kernel.
+They’re typically measured in megabytes, use far fewer resources than VMs, and start up almost immediately
+
+Docker is an open source project that makes it easy to create containers and container-based apps.
+
+Platforms supported for Docker: Linux, Windows and MacOS
+
+=====================================================================================================
+Docker Images
+-------------
+It is a collection of files like libraries, binaries, and other dependencies just needed to run the application. 
+These files in the Docker image are read-only and hence the content of the image cannot be altered.
+
+Docker Containers
+-----------------
+The docker images are read-only and stateless. The docker containers on the other hand are spun-off from docker image and adds a read-write layer on top of it.
+ 
+Docker Registry
+---------------
+Docker images can be stored in order to be publicly or privately in a Docker registry.
+Docker Registry could be hosted by a third party as a public or private registry, like Docker Hub
+
+DockerFile --(Build)--> DockerImage --(run)--> DockerContainer
+
+DockerFile is what you or developer write code to do something (ex- Install)
+
+Docker Image is what you get when you build docker file .
+
+Docker Container is what you get when you run your Docker image
+
+We can get Docker Image from docker hub by pulling and then run it to get container. 
+When you type docker run it takes the image, and makes it a living container with a running process
+=====================================================================================================
+Facts
+-----
+
+Docker is only supported on 64-bit architecture. (How do you check the OS architecture)
+Docker is supported on kernel version 3.8 or later. (How do you check the Kernel verison)
+The kernel should have a storage backend such as DeviceMapper (Command ->> rpm -qa | grep mapper)
+
+Prerequisite --> yum install -y yum-utils
+Setting up docker repository -->  yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+------------------------------------------
+OR -- Update the package database & Installing Docker using an automated script
+
+yum check-update
+
+curl -fsSL https://get.docker.com/ | sh --> It will add the official Docker repository, download the latest version of Docker, and install it
+------------------------------------------
+
+Installing the docker package
+yum install docker-ce
+
+After installation has completed, start the Docker daemon  --> systemctl start docker
+
+Verify that it’s running --> systemctl status docker
+
+Important --> systemctl enable docker  (Question - what is meant by enable)
+by running the above command we enable the docker so that we dont have to start the docker system every time we turn on our machine or working environment.
+
+Using the Docker Command
+------------------------
+docker  --> running this will show you all the sub commands
+
+docker info --> system-wide information --> Verify installation
+
+To check docker version --> docker --version
+
+To update docker to the latest version --> yum -y update docker
+
+============================================================
+Working with Docker Images
+
+Important
+---------
+To check whether you can access and download images from Docker Hub
+
+docker run hello-world   --> Questions are asked on this point
+
+Searching for images available on Docker Hub
+--------------------------------------------
+docker search centos  -->> This basically crawls Docker Hub and return a listing of all images whose name match the search string i.e 'centos'
+
+If you get the image in search that you want, pull it from the repository --> docker pull centos
+Once image has been downloaded/pulled, run it and it'll become a container --> docker run centos
+Listing all the images --> docker images
+
+Running a Docker Container --> docker run -it centos  (The combination of the -i and -t switches gives you interactive shell access into the container)
+Once this is run, then interactive shell is opened up with '[root@<conatiner_id>]#' format
+
+Now install httpd in this container --> yum install httpd
+Use the exit command to stop a running container and The "docker commit" command saves the changes to a new image
+
+To commit the changes 
+---------------------
+docker commit -m "Things you did to image" -a "Author Name" container-id repository/new_image_name
+
+After commit is successful --> check if the image reflects --> docker images
+
+Listing Docker Containers
+-------------------------
+docker ps -a (Active + Inactive)
+docker ps (Active)
+docker ps -l (latest container you created)
+
+Stopping a running or active container 
+--------------------------------------
+docker stop container-id
+
+Pushing Docker Images to a Docker Repository
+--------------------------------------------
+To push an image to Docker Hub or any other Docker registry, you must have an account there
+
+To login via cli --> docker login -u docker-registry-username
+To push your image --> docker push docker-registry-username/docker-image-name
+
+
+
+
+
+
+
+
